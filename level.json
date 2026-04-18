@@ -1,0 +1,41 @@
+{
+  "level_name": "Lite_Lvl_1",
+  "ground_y": 220,
+  "segments": [
+    {
+      "class": "SingleSpike",
+      "x": 300,
+      "y": 180
+    },
+    {
+      "class": "SingleSpike",
+      "x": 600,
+      "y": 180
+    },
+    {
+      "class": "TripleSpike",
+      "x": 900,
+      "y": 180
+    },
+    {
+      "class": "SingleSpike",
+      "x": 1200,
+      "y": 180
+    },
+    {
+      "class": "SingleSpike",
+      "x": 1500,
+      "y": 180
+    },
+    {
+      "class": "TripleSpike",
+      "x": 1800,
+      "y": 180
+    },
+    {
+      "class": "EndLevel",
+      "x": 3000,
+      "y": 20
+    }
+  ]
+}
