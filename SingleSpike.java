@@ -1,14 +1,13 @@
 package dash;
 
-/**
- * SingleSpike: Ostacolo singolo a forma di spuntone.
- * Causa Game Over al contatto con il cubo.
- */
-public class SingleSpike extends AbstractEntity {
+public class MultipleBlock extends AbstractEntity{
 	
 	private Hitbox hitbox;
 
-    public SingleSpike(int x, int y) {
-        super(x, y, GameConstants.SPIKE_WIDTH, GameConstants.SPIKE_HEIGHT, EntityType.OBSTACLE);
+    public MultipleBlock(int x, int y, int n) {
+        super(x, y, 40, 40, n, EntityType.BLOCK);
+        this.hitbox = new Hitbox(x, y, 40 * n, 40);
+        this.setHitbox(hitbox);
     }
+
 }

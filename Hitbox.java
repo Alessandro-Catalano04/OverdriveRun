@@ -3,7 +3,7 @@ package dash;
 import java.awt.Rectangle;
 
 /**
- * Hitbox: Definisce l'area di collisione di un'entit‡ (composizione).
+ * Hitbox: Definisce l'area di collisione di un'entit√† (composizione).
  * Wrappa un Rectangle di AWT per il rilevamento delle intersezioni.
  */
 public class Hitbox {

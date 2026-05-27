@@ -1,24 +1,25 @@
 package dash;
 
 /**
- * AbstractEntity: Classe astratta che implementa i metodi comuni a tutte le entit‡.
+ * AbstractEntity: Classe astratta che implementa i metodi comuni a tutte le entit√†.
  * Le sottoclassi devono specificare solo il loro EntityType.
  */
 public abstract class AbstractEntity implements Entity {
 
     protected Pointer position;
-    protected Hitbox hitbox;
-    protected final int width;
-    protected final int height;
-    protected final EntityType entityType;
+    private Hitbox hitbox;
+    private final int width;
+    private final int height;
+    private final EntityType entityType;
+    private final int number;
 
     // costruttore che prende posizione, dimensioni e tipo.
-    protected AbstractEntity(int x, int y, int width, int height, EntityType entityType) {
+    protected AbstractEntity(int x, int y, int width, int height, int n, EntityType entityType) {
         this.position   = new Pointer(x, y);
         this.width      = width;
         this.height     = height;
         this.entityType = entityType;
-        this.hitbox     = new Hitbox(x, y, width, height);
+        this.number     = n;
     }
 
     // metodo per gestire lo scroll
@@ -51,5 +52,14 @@ public abstract class AbstractEntity implements Entity {
     @Override
     public int getHeight() {
         return height;
+    }
+    
+    @Override
+    public int getNumber() {
+    	return this.number;
+    }
+    
+    public void setHitbox(Hitbox hitbox) {
+    	this.hitbox = hitbox;
     }
 }

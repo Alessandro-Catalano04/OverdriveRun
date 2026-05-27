@@ -1,13 +1,16 @@
 package dash;
 
 /**
- * TripleSpike: Gruppo di tre spuntoni affiancati.
- * La hitbox copre l'intera larghezza del gruppo.
+ * SingleSpike: Ostacolo singolo a forma di spuntone.
  * Causa Game Over al contatto con il cubo.
  */
-public class TripleSpike extends AbstractEntity {
+public class MultipleSpike extends AbstractEntity {
+	
+	private Hitbox hitbox;
 
-    public TripleSpike(int x, int y) {
-        super(x, y, GameConstants.SPIKE_WIDTH * 3, GameConstants.SPIKE_HEIGHT, EntityType.TRIPLE_OBSTACLE);
+    public MultipleSpike(int x, int y, int n) {
+        super(x, y, GameConstants.SPIKE_WIDTH, GameConstants.SPIKE_HEIGHT, n, EntityType.OBSTACLE);
+        this.hitbox = new Hitbox(x + 5, y + 10, GameConstants.SPIKE_WIDTH * n - 10, GameConstants.SPIKE_HEIGHT - 10);
+        this.setHitbox(hitbox);
     }
 }

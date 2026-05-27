@@ -15,7 +15,7 @@ public interface Entity {
     // Restituisce la hitbox dell'oggetto, usata per il rilevamento collisioni.
     Hitbox getHitbox();
 
-    // Restituisce il tipo di entit‡ (es. OBSTACLE, BLOCK, END).
+    // Restituisce il tipo di entit√† (es. OBSTACLE, BLOCK, END).
     EntityType getEntityType();
 
     // Restituisce la larghezza dell'oggetto.
@@ -23,4 +23,7 @@ public interface Entity {
 
     // Restituisce l'altezza dell'oggetto.
     int getHeight();
+    
+    // Restituisce il numero di oggetti
+    int getNumber();
 }
