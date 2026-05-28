@@ -2,7 +2,6 @@ package dash;
  
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
  
 /**
  * EndMenu: Schermata fine livello (VIEW).
@@ -36,11 +35,11 @@ public class EndMenu extends JPanel implements Menu {
         scoreLabel.setForeground(Color.WHITE);
         scoreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
  
-        JButton retryBtn = MenuStyle.makeButton("   RIPROVA (PREMI INVIO)");
+        JButton retryBtn = MenuStyle.makeButton("\u21BA   RIPROVA");
         retryBtn.setActionCommand("RETRY");
         retryBtn.addActionListener(controller);
  
-        JButton menuBtn = MenuStyle.makeButton("  MENU PRINCIPALE");
+        JButton menuBtn = MenuStyle.makeButton("\u2302   MENU PRINCIPALE");
         menuBtn.setActionCommand("BACK_TO_MENU");
         menuBtn.addActionListener(controller);
  
@@ -55,17 +54,6 @@ public class EndMenu extends JPanel implements Menu {
         add(MenuStyle.vSpace(12));
         add(menuBtn);
         add(MenuStyle.vGlue());
-        
-        InputMap im = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        ActionMap am = getActionMap();
-
-        im.put(KeyStroke.getKeyStroke("ENTER"), "retryAction");
-        am.put("retryAction", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controller.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "RETRY"));
-            }
-        });
     }
  
     /** Aggiorna titolo, icona e score in base al risultato. */

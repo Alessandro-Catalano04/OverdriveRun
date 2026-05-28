@@ -1,12 +1,11 @@
 package dash;
 
 /**
- * EntityType: Definisce i tipi di entit‡ presenti nel gioco.
+ * EntityType: Definisce i tipi di entit√† presenti nel gioco.
  */
 public enum EntityType {
     CUBE,
     OBSTACLE,
-    TRIPLE_OBSTACLE,
     BLOCK,
     END
 }

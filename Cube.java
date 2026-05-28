@@ -25,7 +25,7 @@ public class Cube extends AbstractEntity {
     
     // da rivedere
     /**
-     * Espone i bounds come Rectangle per compatibilit‡ con la collision detection
+     * Espone i bounds come Rectangle per compatibilit√† con la collision detection
      * del GameEngine (che usa Rectangle.intersects).
      */
     public Rectangle getBounds() {
