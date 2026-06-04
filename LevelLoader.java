@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * LevelLoader: Legge i dati del livello da un file JSON e costruisce
- * l'intera lista di entit‡ usando ObstacleGenerator (reflection).
+ * l'intera lista di entit√† usando ObstacleGenerator (reflection).
  */
 public class LevelLoader {
 
@@ -22,7 +22,7 @@ public class LevelLoader {
     private final String levelName;
 
     public LevelLoader(String filename) throws IOException {
-    	// identifica il file dove Ë definito il livello
+    	// identifica il file dove √® definito il livello
         InputStream is = LevelLoader.class.getResourceAsStream(filename);
         if (is == null) throw new IOException("File non trovato nel classpath: " + filename);
 
@@ -42,7 +42,7 @@ public class LevelLoader {
     }
 
     /**
-     * Costruisce e restituisce la lista delle entit‡ del livello.
+     * Costruisce e restituisce la lista delle entit√† del livello.
      * Ogni chiamata restituisce una nuova lista (per supportare il reset).
      */
     public List<Entity> getMap() {
@@ -53,9 +53,10 @@ public class LevelLoader {
             String     className = obj.getString("class");
             int        x         = obj.getInt("x");
             int        y         = obj.getInt("y");
+            int		   n         = obj.getInt("n");
 
             // ObstacleGenerator usa la reflection per istanziare la classe
-            Entity entity = ObstacleGenerator.generate(className, x, y);
+            Entity entity = ObstacleGenerator.generate(className, x, y, n);
             map.add(entity);
         }
 

@@ -3,39 +3,58 @@
   "ground_y": 220,
   "segments": [
     {
-      "class": "SingleSpike",
+      "class": "MultipleSpike",
       "x": 300,
-      "y": 180
+      "y": 180,
+	  "n": 1 
     },
     {
-      "class": "SingleSpike",
+      "class": "MultipleSpike",
       "x": 600,
-      "y": 180
+      "y": 180,
+	  "n": 1 
     },
     {
-      "class": "TripleSpike",
+      "class": "MultipleSpike",
       "x": 900,
-      "y": 180
+      "y": 180,
+	  "n": 3 
     },
     {
-      "class": "SingleSpike",
+      "class": "MultipleSpike",
       "x": 1200,
-      "y": 180
+      "y": 180,
+	  "n": 1 
     },
     {
-      "class": "SingleSpike",
+      "class": "MultipleSpike",
       "x": 1500,
-      "y": 180
+      "y": 180,
+	  "n": 1 
     },
     {
-      "class": "TripleSpike",
+      "class": "MultipleSpike",
       "x": 1800,
-      "y": 180
+      "y": 180,
+	  "n": 3 
     },
+	{
+	  "class": "MultipleBlock",
+	  "x": 2300,
+	  "y": 180,
+      "n": 3 
+	},
+	{
+	  "class": "MultipleSpike",
+	  "x": 2380,
+	  "y": 140,
+	  "n": 1 
+	},
     {
       "class": "EndLevel",
       "x": 3000,
-      "y": 20
+      "y": 20,
+	  "n": 1 
     }
   ]
 }

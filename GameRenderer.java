@@ -23,6 +23,7 @@ public class GameRenderer extends JPanel {
     private static final Color CUBE_GLOW  = new Color(255, 230, 100, 80);
     private static final Color CUBE_EDGE  = new Color(200, 140, 0);
     private static final Color SPIKE_COL  = new Color(255, 60, 60);
+    private static final Color BLOCK_COL  = new Color(60, 230, 120);
     private static final Color SPIKE_EDGE = new Color(180, 20, 20);
     private static final Color END_COL    = new Color(60, 230, 120);
  
@@ -47,6 +48,8 @@ public class GameRenderer extends JPanel {
         drawGround(g2, W, H);
         drawEntities(g2, engine.getObstacles());
         drawCube(g2, engine.getCube());
+        drawHUD(g2, engine, W);
+        
         
      // --- DEBUG: Visualizzazione Hitbox ---
         drawDebugHitboxes(g2, engine);
@@ -60,25 +63,6 @@ public class GameRenderer extends JPanel {
     private void drawSky(Graphics2D g2, int W, int H) {
         g2.setPaint(new GradientPaint(0, 0, SKY_TOP, 0, H, SKY_BOTTOM));
         g2.fillRect(0, 0, W, H);
-    }
-    
-    /**
-     * Metodo di debug per visualizzare le aree di collisione (Hitbox).
-     */
-    private void drawDebugHitboxes(Graphics2D g2, GameEngine engine) {
-        g2.setStroke(new BasicStroke(1.0f));
-        
-        // 1. Disegna la hitbox del Cubo
-        g2.setColor(new Color(0, 255, 0, 150)); // Verde semitrasparente
-        Rectangle cubeBox = engine.getCube().getHitbox().getBounds();
-        g2.drawRect(cubeBox.x, cubeBox.y, cubeBox.width, cubeBox.height);
-        
-        // 2. Disegna le hitbox di tutti gli ostacoli attivi
-        g2.setColor(new Color(255, 0, 0, 150)); // Rosso semitrasparente
-        for (Entity entity : engine.getObstacles()) {
-            Rectangle entityBox = entity.getHitbox().getBounds();
-            g2.drawRect(entityBox.x, entityBox.y, entityBox.width, entityBox.height);
-        }
     }
  
     private void drawGrid(Graphics2D g2, int W, int H) {
@@ -108,27 +92,19 @@ public class GameRenderer extends JPanel {
             int ey = entity.getPosition().getY();
             int ew = entity.getWidth();
             int eh = entity.getHeight();
+            int n  = entity.getNumber();
  
             switch (entity.getEntityType()) {
  
                 case OBSTACLE:
-                    drawSpike(g2, ex, ey, ew, eh);
-                    break;
- 
-                case TRIPLE_OBSTACLE:
-                    int sw = GameConstants.SPIKE_WIDTH;
-                    for (int i = 0; i < 3; i++)
-                        drawSpike(g2, ex + i * sw, ey, sw, eh);
+                	for (int i = 0; i < n; i++)
+                		drawSpike(g2, ex + i * 40, ey, ew, eh);
                     break;
  
                 case BLOCK:
-                    g2.setPaint(new GradientPaint(ex, ey,
-                            new Color(60, 140, 255),
-                            ex, ey + eh, new Color(30, 80, 200)));
-                    g2.fillRoundRect(ex, ey, ew, eh, 6, 6);
-                    g2.setColor(new Color(120, 180, 255));
-                    g2.setStroke(new BasicStroke(1.5f));
-                    g2.drawRoundRect(ex, ey, ew, eh, 6, 6);
+                	for (int i = 0; i < n; i++) {
+                		drawBlock(g2, ex + i * 40, ey, ew, eh);
+                	}
                     break;
  
                 case END:
@@ -152,12 +128,6 @@ public class GameRenderer extends JPanel {
         int[] xs = { x,         x + w,     x + w / 2 };
         int[] ys = { y + h,     y + h,     y          };
  
-        // Alone rosso
-        g2.setColor(new Color(255, 60, 60, 40));
-        int[] xsg = { x - 2,     x + w + 2, x + w / 2 };
-        int[] ysg = { y + h + 2, y + h + 2, y - 4     };
-        g2.fillPolygon(xsg, ysg, 3);
- 
         // Corpo
         g2.setColor(SPIKE_COL);
         g2.fillPolygon(xs, ys, 3);
@@ -166,6 +136,18 @@ public class GameRenderer extends JPanel {
         g2.setColor(SPIKE_EDGE);
         g2.setStroke(new BasicStroke(1.5f));
         g2.drawPolygon(xs, ys, 3);
+    }
+    
+    private void drawBlock(Graphics2D g2, int x, int y, int w, int h) {
+ 
+        // Corpo
+    	g2.setPaint(new GradientPaint(x, y,
+               new Color(60, 140, 255),
+               x, y + h, new Color(30, 80, 200)));
+        g2.fillRect(x, y, w, h);
+        g2.setColor(new Color(120, 180, 255));
+        g2.setStroke(new BasicStroke(1.5f));
+        g2.drawRect(x, y, w, h);
     }
  
     private void drawCube(Graphics2D g2, Cube cube) {
@@ -216,5 +198,31 @@ public class GameRenderer extends JPanel {
         g2.setFont(new Font("Arial", Font.PLAIN, 11));
         g2.setColor(new Color(255, 255, 255, 60));
         g2.drawString("[ESC] Pausa  [SPAZIO] Salta", 10, getHeight() - 6);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    /**
+     * Metodo di debug per visualizzare le aree di collisione (Hitbox).
+     */
+    private void drawDebugHitboxes(Graphics2D g2, GameEngine engine) {
+        g2.setStroke(new BasicStroke(1.0f));
+        
+        // 1. Disegna la hitbox del Cubo
+        g2.setColor(new Color(0, 255, 0, 150)); // Verde semitrasparente
+        Rectangle cubeBox = engine.getCube().getHitbox().getBounds();
+        g2.drawRect(cubeBox.x, cubeBox.y, cubeBox.width, cubeBox.height);
+        
+        // 2. Disegna le hitbox di tutti gli ostacoli attivi
+        g2.setColor(new Color(255, 0, 0, 150)); // Rosso semitrasparente
+        for (Entity entity : engine.getObstacles()) {
+            Rectangle entityBox = entity.getHitbox().getBounds();
+            g2.drawRect(entityBox.x, entityBox.y, entityBox.width, entityBox.height);
+        }
     }
 }

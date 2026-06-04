@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * GameEngine: Modello principale del gioco (MODEL nel pattern MVC).
  * Gestisce tutta la logica: fisica del cubo, scrolling, collisioni.
- * Non ha dipendenze dalla View né dal Controller.
+ * Non ha dipendenze dalla View nï¿½ dal Controller.
  */
 public class GameEngine {
 
@@ -119,7 +119,7 @@ public class GameEngine {
             groundedThisFrame = true;
         }
 
-        // 2. Collisioni con le entità del livello
+        // 2. Collisioni con le entitï¿½ del livello
         for (Entity entity : activeObjects) {
             if (!entity.getHitbox().intersects(cube.getBounds())) continue;
 
