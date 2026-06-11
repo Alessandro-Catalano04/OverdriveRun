@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * GameEngine: Modello principale del gioco (MODEL nel pattern MVC).
  * Gestisce tutta la logica: fisica del cubo, scrolling, collisioni.
- * Non ha dipendenze dalla View n� dal Controller.
+ * Non ha dipendenze dalla View né dal Controller.
  */
 public class GameEngine {
 
@@ -119,38 +119,34 @@ public class GameEngine {
             groundedThisFrame = true;
         }
 
-        // 2. Collisioni con le entit� del livello
+        // 2. Collisioni con le entità del livello
         for (Entity entity : activeObjects) {
-            if (!entity.getHitbox().intersects(cube.getBounds())) continue;
+            if (!entity.getHitbox().intersects(cube.getHitbox())) continue;
 
-            switch (entity.getEntityType()) {
+            Effect result = entity.onCollision(
+                    cube,
+                    velocityY,
+                    this.previousCubeY
+            );
 
-                case OBSTACLE:
-                case TRIPLE_OBSTACLE:
+            switch (result) {
+
+                case GAME_OVER:
                     isGameOver = true;
                     return false;
 
-                case BLOCK:
-                    // Atterraggio sopra il blocco
-                    boolean fallingDown = velocityY >= 0;
-                    boolean cubeWasAbove = previousCubeY + GameConstants.CUBE_SIZE
-                            <= entity.getHitbox().getY() + GameConstants.PLATFORM_SAFE_ZONE;
-                    if (fallingDown && cubeWasAbove) {
-                        cube.setY(entity.getHitbox().getY() - GameConstants.CUBE_SIZE);
-                        velocityY         = 0;
-                        groundedThisFrame = true;
-                    } else {
-                        isGameOver = true;
-                        return false;
-                    }
+                case LAND:
+                    velocityY = 0;
+                    groundedThisFrame = true;
                     break;
 
-                case END:
+                case LEVEL_COMPLETED:
                     isLevelCompleted = true;
                     break;
-
-                default:
-                    break;
+                    
+                case JUMP:
+                	velocityY = -20;
+                	break;
             }
         }
 
