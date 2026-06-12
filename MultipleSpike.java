@@ -13,4 +13,9 @@ public class MultipleSpike extends AbstractEntity {
         this.hitbox = new Hitbox(x + 5, y + 10, GameConstants.SPIKE_WIDTH * n - 10, GameConstants.SPIKE_HEIGHT - 10);
         this.setHitbox(hitbox);
     }
+
+	@Override
+	public Effect onCollision(Cube cube, double speed, int y) {
+		return Effect.GAME_OVER;
+	}
 }

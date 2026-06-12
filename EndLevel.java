@@ -13,4 +13,9 @@ public class EndLevel extends AbstractEntity {
         this.hitbox = new Hitbox(x, y, GameConstants.END_WIDTH, GameConstants.END_HEIGHT);
         this.setHitbox(hitbox);
     }
+
+	@Override
+	public Effect onCollision(Cube cube, double speed, int y) {
+		return Effect.LEVEL_COMPLETED;
+	}
 }
