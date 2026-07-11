@@ -44,11 +44,11 @@ public class GameMenu extends JPanel implements Menu {
         subtitle.setForeground(new Color(160, 185, 255));
         subtitle.setAlignmentX(Component.CENTER_ALIGNMENT);
  
-        JButton startBtn = MenuStyle.makeButton("\u25B6   GIOCA");
+        JButton startBtn = MenuStyle.makeButton("GIOCA");
         startBtn.setActionCommand("START");
         startBtn.addActionListener(controller);
  
-        JButton levelBtn = MenuStyle.makeButton("\u2630   SELEZIONA LIVELLO");
+        JButton levelBtn = MenuStyle.makeButton("SELEZIONA LIVELLO");
         levelBtn.setActionCommand("SELECT_LEVEL");
         levelBtn.addActionListener(controller);
  
