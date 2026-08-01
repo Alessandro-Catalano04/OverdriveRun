@@ -6,16 +6,22 @@ package dash;
  */
 public class MultipleSpike extends AbstractEntity {
 	
-	private Hitbox hitbox;
-
     public MultipleSpike(int x, int y, int n) {
-        super(x, y, GameConstants.SPIKE_WIDTH, GameConstants.SPIKE_HEIGHT, n, EntityType.OBSTACLE);
-        this.hitbox = new Hitbox(x + 5, y + 10, GameConstants.SPIKE_WIDTH * n - 10, GameConstants.SPIKE_HEIGHT - 10);
-        this.setHitbox(hitbox);
+        super(x, y, GameConstants.SIZE, GameConstants.SIZE, n, EntityType.OBSTACLE);
     }
 
 	@Override
 	public Effect onCollision(Cube cube, double speed, int y) {
 		return Effect.GAME_OVER;
+	}
+
+	@Override
+	public String getSpritePath() {
+		return "/assets/spike.png";
+	}
+
+	@Override
+	protected Hitbox createHitbox(int x, int y, int width, int height, int n) {
+		return new Hitbox(x + 5, y + 10, GameConstants.SIZE * n - 10, GameConstants.SIZE - 10);
 	}
 }

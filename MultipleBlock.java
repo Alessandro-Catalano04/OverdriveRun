@@ -2,20 +2,14 @@ package dash;
 
 public class MultipleBlock extends AbstractEntity{
 	
-	private Hitbox hitbox;
-
     public MultipleBlock(int x, int y, int n) {
         super(x, y, 40, 40, n, EntityType.BLOCK);
-        this.hitbox = new Hitbox(x, y, 40 * n, 40);
-        this.setHitbox(hitbox);
     }
 
 	@Override
 	public Effect onCollision(Cube cube, double speed, int y) {
 
-	    double cubeBottomPrev = y + GameConstants.CUBE_SIZE;
-	    double cubeTopPrev    = y;
-
+	    double cubeBottomPrev = y + GameConstants.SIZE;
 	    double blockTop    = this.getHitbox().getY();
 
 	    boolean fallingDown = y >= 0;
@@ -26,6 +20,16 @@ public class MultipleBlock extends AbstractEntity{
 	    } else {
 	    	return Effect.GAME_OVER;
 	    }
+	}
+
+	@Override
+	public String getSpritePath() {
+		return "/assets/block.png";
+	}
+
+	@Override
+	protected Hitbox createHitbox(int x, int y, int width, int height, int n) {
+		return new Hitbox(x, y, 40 * n, 40);
 	}
 
 }
