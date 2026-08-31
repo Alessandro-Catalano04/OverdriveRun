@@ -8,7 +8,7 @@ import java.lang.reflect.Constructor;
  * la classe corrispondente.
  *
  * Il JSON deve contenere il nome semplice della classe (es. "SingleSpike"),
- * che verr‡ cercata nel package.
+ * che verr√† cercata nel package.
  */
 public class ObstacleGenerator {
 
@@ -17,24 +17,22 @@ public class ObstacleGenerator {
 
     /**
      * Crea un'istanza di Entity a partire dal nome della classe e dalle coordinate.
-     * IllegalArgumentException se la classe non esiste o non Ë un'Entity
+     * IllegalArgumentException se la classe non esiste o non √® un'Entity
      */
     
-    public static Entity generate(String className, int x, int y) {
+    public static Entity generate(String className, int x, int y, int n) {
         String fullName = PACKAGE + className;
         try {
             Class<?> obstacle = Class.forName(fullName);
 
             // Verifica che la classe implementi Entity
             if (!Entity.class.isAssignableFrom(obstacle)) {
-                throw new IllegalArgumentException(
-                    "La classe " + fullName + " non implementa Entity."
-                );
+                throw new IllegalArgumentException("La classe " + fullName + " non implementa Entity.");
             }
 
-            // Cerca il costruttore (int x, int y)
-            Constructor<?> constructor = obstacle.getConstructor(int.class, int.class);
-            return (Entity) constructor.newInstance(x, y);
+            // Cerca il costruttore (int x, int y, int n)
+            Constructor<?> constructor = obstacle.getConstructor(int.class, int.class, int.class);
+            return (Entity) constructor.newInstance(x, y, n);
 
         } catch (ClassNotFoundException e) {
             throw new IllegalArgumentException("Classe non trovata: " + fullName, e);

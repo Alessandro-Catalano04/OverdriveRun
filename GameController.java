@@ -1,7 +1,5 @@
 package dash;
  
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import javax.swing.SwingUtilities;
  
 /**
@@ -9,7 +7,7 @@ import javax.swing.SwingUtilities;
  * Gestisce il game loop, coordina MenuController e LevelController,
  * e controlla le transizioni tra i pannelli della View.
  */
-public class GameController implements Runnable, KeyListener {
+public class GameController implements Runnable {
  
     private static final double UPDATE_RATE = GameConstants.UPDATE_RATE;
  
@@ -35,7 +33,6 @@ public class GameController implements Runnable, KeyListener {
         this.levelController = new LevelController(engine, this);
  
         gameRenderer.addKeyListener(levelController);
-        gameRenderer.addKeyListener(this);
     }
  
     // -----------------------------------------------------------------------
@@ -52,12 +49,14 @@ public class GameController implements Runnable, KeyListener {
     // Transizioni pannello
     // -----------------------------------------------------------------------
  
-    /** Chiamato da MenuController o da handleGameOver per cambiare schermata */
+    /** Chiamato da MenuController o da handleGameOver per cambiare schermata. */
     public void showPanel(String panelName) {
         stopLoop();
  
         if (panelName.equals(GeometryDashLite.GAME_PANEL)) {
             gameEngine.resetGame();
+            gameEngine.incrementAttempts();
+            MusicPlayer.getInstance().play(gameEngine.getLevelMusicTrack());
             parentFrame.showPanel(panelName);
             startLoop();
         } else {
@@ -66,7 +65,7 @@ public class GameController implements Runnable, KeyListener {
     }
  
     // -----------------------------------------------------------------------
-    // gestione pausa
+    // Gestione pausa
     // -----------------------------------------------------------------------
  
     public void pauseGame() {
@@ -80,16 +79,17 @@ public class GameController implements Runnable, KeyListener {
     public void resumeGame() {
         isPaused = false;
         parentFrame.showPanel(GeometryDashLite.GAME_PANEL);
+        MusicPlayer.getInstance().play(gameEngine.getLevelMusicTrack());
         startLoop();
     }
  
     // -----------------------------------------------------------------------
-    // gestione game loop
+    // Gestione game loop
     // -----------------------------------------------------------------------
  
     public synchronized void startLoop() {
         if (isGameRunning) return;
-        
+ 
         accumulator   = 0.0;
         isGameRunning = true;
         gameThread    = new Thread(this, "GameLoop");
@@ -101,8 +101,8 @@ public class GameController implements Runnable, KeyListener {
     public synchronized void stopLoop() {
         isGameRunning = false;
         if (gameThread != null && gameThread.isAlive()) {
-            try { 
-            	gameThread.join(300);
+            try {
+                gameThread.join(300);
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
@@ -111,53 +111,44 @@ public class GameController implements Runnable, KeyListener {
  
     @Override
     public void run() {
-        long lastTime = System.nanoTime();
- 
+        long lastTime  = System.nanoTime();
+        long nextTick  = lastTime + (long)(UPDATE_RATE * 1_000_000_000L);
+
         while (isGameRunning) {
-            long   now     = System.nanoTime();
-            double elapsed = (now - lastTime) / 1_000_000_000.0;
-            lastTime = now;
-            accumulator += elapsed;
- 
-            try {
-                while (accumulator >= UPDATE_RATE) {
-                    gameEngine.update();
-                    accumulator -= UPDATE_RATE;
- 
-                    if (gameEngine.isGameOver()) {
-                        isGameRunning = false;
-                        // Passa all'EDT per aggiornare la View
-                        SwingUtilities.invokeLater(this::handleGameOver);
-                        return;
-                    }
+            long now = System.nanoTime();
+
+            // Aggiorna la fisica per ogni tick accumulato
+            while (now >= nextTick) {
+                gameEngine.update();
+                nextTick += (long)(UPDATE_RATE * 1_000_000_000L);
+
+                if (gameEngine.isGameOver()) {
+                    isGameRunning = false;
+                    SwingUtilities.invokeLater(this::handleGameOver);
+                    return;
                 }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                isGameRunning = false;
-                SwingUtilities.invokeLater(this::handleGameOver);
-                return;
             }
- 
+
             gameRenderer.repaint();
-            try { Thread.sleep(1); } catch (InterruptedException ex) {
-                Thread.currentThread().interrupt();
+
+            // Calcola quanto tempo manca al prossimo tick
+            long timeUntilNext = nextTick - System.nanoTime();
+
+            if (timeUntilNext > 2_000_000L) {
+                // Se manca più di 2ms, dormi (risparmia CPU)
+                try { Thread.sleep((timeUntilNext - 1_000_000L) / 1_000_000L); }
+                catch (InterruptedException e) { Thread.currentThread().interrupt(); }
             }
         }
     }
  
     /** Eseguito sull'EDT: aggiorna EndMenu e mostra il pannello. */
     private void handleGameOver() {
+        int percent = (int) Math.round(gameEngine.getLevelProgress() * 100);
         parentFrame.getEndMenu().setResult(
                 gameEngine.isLevelCompleted(),
-                gameEngine.getScore());
+                gameEngine.getAttempts(),
+                percent);
         parentFrame.showPanel(GeometryDashLite.END_MENU_PANEL);
     }
- 
-    // -----------------------------------------------------------------------
-    // KeyListener (estensioni future; ESC gestito da LevelController)
-    // -----------------------------------------------------------------------
- 
-    @Override public void keyPressed(KeyEvent e)  {}
-    @Override public void keyTyped(KeyEvent e)     {}
-    @Override public void keyReleased(KeyEvent e) {}
 }

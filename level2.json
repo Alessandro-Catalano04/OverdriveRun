@@ -1,0 +1,23 @@
+{
+  "level_name": "Lite_Lvl_2",
+  "ground_y": 400,
+  "music": "/music/Spikeframe-Overdrive.wav",
+  "segments": [
+    { "class": "MultipleSpike", "x": 8,  "y": 1, "n": 2 },
+    { "class": "MultipleSpike", "x": 14, "y": 1, "n": 1 },
+    { "class": "MultipleBlock", "x": 22, "y": 1, "n": 4 },
+    { "class": "MultipleSpike", "x": 24, "y": 2, "n": 2 },
+    { "class": "MultipleSpike", "x": 31, "y": 1, "n": 3 },
+    { "class": "LaunchPad",     "x": 38, "y": 0.25, "n": 1 },
+    { "class": "MultipleBlock", "x": 40, "y": 1, "n": 3 },
+    { "class": "MultipleSpike", "x": 40, "y": 2, "n": 3 },
+	{ "class": "MultipleSpike", "x": 50, "y": 1, "n": 1 },
+    { "class": "MultipleSpike", "x": 55, "y": 1, "n": 2 },
+    { "class": "MultipleSpike", "x": 61, "y": 1, "n": 3 },
+	{ "class": "MultipleBlock", "x": 70, "y": 1, "n": 10 },
+	{ "class": "MultipleBlock", "x": 80, "y": 2, "n": 10 },
+	{ "class": "MultipleBlock", "x": 90, "y": 3, "n": 10 },
+	{ "class": "MultipleBlock", "x": 100, "y": 4, "n": 10 },
+    { "class": "EndLevel",      "x": 140, "y": 10,"n": 1 }
+  ]
+}
