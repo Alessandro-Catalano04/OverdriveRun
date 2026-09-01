@@ -30,15 +30,25 @@ public class MenuController implements ActionListener {
     private void dispatch(String cmd) {
         switch (cmd) {
             case "START":
+                gameEngine.loadLevel("level.json"); // assicura che il livello e la traccia siano aggiornati
                 gameController.showPanel(GeometryDashLite.GAME_PANEL);
                 break;
             case "SELECT_LEVEL":
+                gameController.showPanel(GeometryDashLite.LEVEL_MENU_PANEL);
+                break;
+            case "SELECT_LVL1":
+                gameEngine.loadLevel("level.json");
+                gameController.showPanel(GeometryDashLite.LEVEL_MENU_PANEL);
+                break;
+            case "SELECT_LVL2":
+                gameEngine.loadLevel("level2.json");
                 gameController.showPanel(GeometryDashLite.LEVEL_MENU_PANEL);
                 break;
             case "START_SELECTED":
                 gameController.showPanel(GeometryDashLite.GAME_PANEL);
                 break;
             case "BACK_TO_MENU":
+            	MusicPlayer.getInstance().play("/music/Overclocked_Momentum.wav");
                 gameController.showPanel(GeometryDashLite.GAME_MENU_PANEL);
                 break;
             case "RESUME":

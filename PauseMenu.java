@@ -13,7 +13,7 @@ public class PauseMenu extends JPanel implements Menu {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setOpaque(false);
         setFocusable(true);
-        setPreferredSize(new Dimension(GameConstants.WIDTH, GameConstants.HEIGHT));
+        setPreferredSize(new Dimension(RenderConstants.WIDTH, RenderConstants.HEIGHT));
  
         // Icona pausa
         JLabel icon = new JLabel(" ") {

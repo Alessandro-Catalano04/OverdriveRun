@@ -12,7 +12,7 @@ public class GameMenu extends JPanel implements Menu {
     public GameMenu(MenuController controller) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setOpaque(false);
-        setPreferredSize(new Dimension(GameConstants.WIDTH, GameConstants.HEIGHT));
+        setPreferredSize(new Dimension(RenderConstants.WIDTH, RenderConstants.HEIGHT));
  
         // Titolo con gradiente disegnato manualmente
         JLabel title = new JLabel("GEOMETRY DASH") {

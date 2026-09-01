@@ -18,7 +18,7 @@ public class LevelMenu extends JPanel implements Menu {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setOpaque(false);
         setFocusable(true);
-        setPreferredSize(new Dimension(GameConstants.WIDTH, GameConstants.HEIGHT));
+        setPreferredSize(new Dimension(RenderConstants.WIDTH, RenderConstants.HEIGHT));
  
         // Titolo sezione
         JLabel title = new JLabel("SELEZIONA LIVELLO");
@@ -30,6 +30,15 @@ public class LevelMenu extends JPanel implements Menu {
         JPanel card = buildLevelCard();
  
         // Bottoni
+        
+        JButton level1 = MenuStyle.makeButton("LIVELLO 1");
+        level1.setActionCommand("SELECT_LVL1");
+        level1.addActionListener(controller);
+
+        JButton level2 = MenuStyle.makeButton("LIVELLO 2");
+        level2.setActionCommand("SELECT_LVL2");
+        level2.addActionListener(controller);
+        
         JButton playBtn = MenuStyle.makeButton("AVVIA");
         playBtn.setActionCommand("START_SELECTED");
         playBtn.addActionListener(controller);
@@ -57,6 +66,10 @@ public class LevelMenu extends JPanel implements Menu {
         add(title);
         add(MenuStyle.vSpace(20));
         add(card);
+        add(MenuStyle.vSpace(28));
+        add(level1);         
+        add(MenuStyle.vSpace(12));
+        add(level2);   
         add(MenuStyle.vSpace(28));
         add(playBtn);
         add(MenuStyle.vSpace(12));

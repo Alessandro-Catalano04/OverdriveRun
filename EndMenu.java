@@ -13,13 +13,14 @@ public class EndMenu extends JPanel implements Menu {
     private final JLabel titleLabel;
     private final JLabel iconLabel;
     private final JLabel scoreLabel;
+    private final JLabel percentLabel;
     private boolean won = false;
  
     public EndMenu(MenuController controller) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setOpaque(false);
         setFocusable(true);
-        setPreferredSize(new Dimension(GameConstants.WIDTH, GameConstants.HEIGHT));
+        setPreferredSize(new Dimension(RenderConstants.WIDTH, RenderConstants.HEIGHT));
  
         iconLabel = new JLabel("✗");
         iconLabel.setFont(new Font("Arial", Font.BOLD, 54));
@@ -31,10 +32,15 @@ public class EndMenu extends JPanel implements Menu {
         titleLabel.setForeground(new Color(255, 80, 80));
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
  
-        scoreLabel = new JLabel("Score: 0");
+        scoreLabel = new JLabel("Tentativi: 0");
         scoreLabel.setFont(MenuStyle.SUBTITLE);
         scoreLabel.setForeground(Color.WHITE);
         scoreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        percentLabel = new JLabel("");
+        percentLabel.setFont(MenuStyle.SMALL_FONT);
+        percentLabel.setForeground(new Color(255, 180, 80));
+        percentLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
  
         JButton retryBtn = MenuStyle.makeButton("   RIPROVA (PREMI INVIO)");
         retryBtn.setActionCommand("RETRY");
@@ -50,6 +56,8 @@ public class EndMenu extends JPanel implements Menu {
         add(titleLabel);
         add(MenuStyle.vSpace(14));
         add(scoreLabel);
+        add(MenuStyle.vSpace(6));
+        add(percentLabel);
         add(MenuStyle.vSpace(32));
         add(retryBtn);
         add(MenuStyle.vSpace(12));
@@ -69,20 +77,22 @@ public class EndMenu extends JPanel implements Menu {
     }
  
     /** Aggiorna titolo, icona e score in base al risultato. */
-    public void setResult(boolean levelCompleted, long score) {
+    public void setResult(boolean levelCompleted, int attempts, int percent) {
         this.won = levelCompleted;
         if (levelCompleted) {
-            iconLabel.setText("\u2605");
+            iconLabel.setText("");
             iconLabel.setForeground(MenuStyle.ACCENT);
             titleLabel.setText("LIVELLO COMPLETATO!");
             titleLabel.setForeground(new Color(80, 230, 120));
+            percentLabel.setText("");
         } else {
-            iconLabel.setText("\u2715");
+            iconLabel.setText("");
             iconLabel.setForeground(new Color(255, 80, 80));
             titleLabel.setText("GAME OVER");
             titleLabel.setForeground(new Color(255, 80, 80));
+            percentLabel.setText("Completato: " + percent + "%");
         }
-        scoreLabel.setText("Score:  " + score);
+        scoreLabel.setText("Tentativi: " + attempts);
     }
  
     @Override
