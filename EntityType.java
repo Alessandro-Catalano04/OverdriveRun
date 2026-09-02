@@ -7,5 +7,6 @@ public enum EntityType {
     CUBE,
     OBSTACLE,
     BLOCK,
-    END
+    END,
+    PAD,
 }

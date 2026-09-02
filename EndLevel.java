@@ -7,7 +7,7 @@ package dash;
 public class EndLevel extends AbstractEntity {
 	
     public EndLevel(int x, int y, int n) {
-        super(x, y, GameConstants.END_WIDTH * n, GameConstants.END_HEIGHT, n, EntityType.END);
+        super(x, y, RenderConstants.END_WIDTH * n, RenderConstants.END_HEIGHT, n, EntityType.END);
     }
 
 	@Override
@@ -22,6 +22,6 @@ public class EndLevel extends AbstractEntity {
 
 	@Override
 	protected Hitbox createHitbox(int x, int y, int width, int height, int n) {
-		return new Hitbox(x, y, GameConstants.END_WIDTH, GameConstants.END_HEIGHT);
+		return new Hitbox(x, y, RenderConstants.END_WIDTH, RenderConstants.END_HEIGHT);
 	}
 }

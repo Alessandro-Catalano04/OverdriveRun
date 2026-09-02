@@ -1,34 +1,29 @@
 package dash;
-
+ 
 /**
- * Pointer: Definisce la posizione di un componente nel livello.
- * Oggetto valore immutabile usato per leggere la posizione delle entit‡.
+ * Pointer: Definisce la posizione visiva (angolo top-left dello sprite) di un'entit√†.
+ * Oggetto mutabile aggiornato ad ogni tick tramite translate().
  */
 public class Pointer {
-
+ 
     private int x;
     private int y;
-
+ 
     public Pointer(int x, int y) {
         this.x = x;
         this.y = y;
     }
-
-    public int getX() {
-        return this.x;
+ 
+    public int getX() { return x; }
+    public int getY() { return y; }
+ 
+    public void translate(int dx, int dy) {
+        x += dx;
+        y += dy;
     }
-
-    public int getY() {
-        return this.y;
-    }
-
-    // Restituisce una copia aggiornata della posizione.
-    public Pointer translate(int dx, int dy) {
-        return new Pointer(this.x + dx, this.y + dy);
-    }
-
-    @Override
-    public String toString() {
-        return "Pointer(" + x + ", " + y + ")";
+ 
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 }
