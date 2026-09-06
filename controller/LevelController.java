@@ -1,75 +1,67 @@
 package controller;
- 
+
 import model.GameEngine;
- 
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
- 
+
 /**
- * LevelController: Keyboard input handler for the active gameplay phase.
+ * Keyboard handler for the gameplay phase.
  *
- * Implements KeyListener and is attached to the view.GameRenderer
- * so it receives key events while the game panel has focus.
- *
- * Responsibilities:
- *   Translates raw key codes into game actions (jump, pause).
- *   Guards against spurious events when the game loop is not running.
- *   Never accesses the View directly, all state changes go through
- *       GameEngine or GameController.
+ * Attached to view.GameRenderer, so it receives key events while the
+ * game panel has focus. It only translates key codes into actions: every state
+ * change goes through GameEngine or GameController, never
+ * through the View.
  */
 public class LevelController implements KeyListener {
- 
+
     private final GameEngine     gameEngine;
     private final GameController gameController;
- 
+
     /**
      * Creates the level controller.
      *
-     * @param gameEngine     the Model used to forward player input (jump requests)
-     * @param gameController the primary controller used for meta-actions (pause)
+     * @param gameEngine     the model, which receives the jump requests
+     * @param gameController the primary controller, which handles the pause
      */
     public LevelController(GameEngine gameEngine, GameController gameController) {
         this.gameEngine     = gameEngine;
         this.gameController = gameController;
     }
- 
-    // -------------------------------------------------------------------------
-    // KeyListener implementation
-    // -------------------------------------------------------------------------
- 
+
     /**
-     * Handles key-press events during gameplay.
+     * Handles key presses during gameplay: SPACE or UP request a jump, ESCAPE
+     * pauses the run.
      *
-     *   SPACE / UP — request a jump from the engine.
-     *   ESCAPE — pause the game via the controller.
-     *
-     * Events are silently ignored when the game loop is not running (e.g. during
-     * a panel transition) to prevent stale input from affecting a new run.
+     * Events are ignored while the loop is not running, e.g. during a panel
+     * transition, so a stale key press cannot affect the next run. Holding the
+     * jump key works because the OS auto-repeat keeps producing key presses,
+     * which the engine buffers until the cube lands.
      *
      * @param e the key event dispatched by the focused component
      */
     @Override
     public void keyPressed(KeyEvent e) {
         if (!gameController.isGameRunning()) return;
- 
+
         switch (e.getKeyCode()) {
             case KeyEvent.VK_SPACE:
             case KeyEvent.VK_UP:
                 gameEngine.requestJump();
                 break;
- 
+
             case KeyEvent.VK_ESCAPE:
                 gameController.pauseGame();
                 break;
- 
+
             default:
                 break;
         }
     }
- 
-    // Not used — key-typed events are not meaningful for this game's controls.
-    @Override public void keyTyped(KeyEvent e)    {}
- 
-    // Not used — all actions are triggered on key-press, not key-release.
-    @Override public void keyReleased(KeyEvent e) {}
+
+    /** Not used: typed events carry no information this game needs. */
+    @Override public void keyTyped(KeyEvent e) { /* no action */ }
+
+    /** Not used: every action is triggered on key press. */
+    @Override public void keyReleased(KeyEvent e) { /* no action */ }
 }
