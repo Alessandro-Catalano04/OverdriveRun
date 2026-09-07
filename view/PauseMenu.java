@@ -10,6 +10,12 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
+import java.awt.event.ActionEvent;
 
 /**
  * Pause overlay, shown on top of the frozen game when the player presses ESC.
@@ -56,6 +62,22 @@ public class PauseMenu extends JPanel implements Menu {
         add(MenuStyle.vSpace(12));
         add(menuBtn);
         add(MenuStyle.vGlue());
+        
+        // ESC is a shortcut for RESUME: it feeds the controller the same command
+        // the CONTINUE button would send, so there is a single code path.
+        InputMap  inputMap  = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = getActionMap();
+        inputMap.put(KeyStroke.getKeyStroke("ESCAPE"), "resumeAction");
+        actionMap.put("resumeAction", new AbstractAction() {
+
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.actionPerformed(new ActionEvent(
+                        this, ActionEvent.ACTION_PERFORMED, MenuCommand.RESUME.name()));
+            }
+        });
     }
 
     /**
